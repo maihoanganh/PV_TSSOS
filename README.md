@@ -2,7 +2,9 @@
 PV_TSSOS is a Julia modeling layer for both polynomial optimization and polynomial systems by combining [TSSOS](https://github.com/wangjie212/TSSOS) and the SDP hierarchy relying on [Putinar-Vasilescu's Positivstellensatz](https://arxiv.org/abs/1911.11428). 
 ## New advances
 - Obtaining an approximate optimizer for a general polynomial optimization 
+
 ![POP](https://github.com/maihoanganh/PV_TSSOS/blob/master/images/POP.gif)
+
 with guarantee in theory.
 
 ## Installation
