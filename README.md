@@ -12,7 +12,7 @@ MOSEK (SDP solver)
 The following examples are performed on WINDOW 10, Julia 1.1.1, and MOSEK 8.0.
 1. Polynomial optimization
 1.1. Compact case
-```
+```ruby
 using DynamicPolynomials
 using PV_TSSOS
 
@@ -32,7 +32,7 @@ Feedback: opt_val=-0.125 and sol=[0.499998, 0.500002].
 
 1.2. Non-compact case
 1.2.1. Unconstrained case
-```
+```ruby
 using DynamicPolynomials
 using PV_TSSOS
 
@@ -59,7 +59,7 @@ PV_TSSOS.adding_spherical_constraints(x,g,h,k,r) # compute minimizers
 Feedback: opt_val=-0.0369 and sol=[0.571385, 0.571382].
 
 1.2.2.  Constrained case
-```
+```ruby
 using DynamicPolynomials
 using PV_TSSOS
 
@@ -86,7 +86,7 @@ PV_TSSOS.adding_spherical_constraints(x,g,h,k,r) # compute minimizers
 Feedback: opt_val=3.000 and sol=[1.00043, 0.999788, 0.999782].
 
 2. Polynomial systems
-```
+```ruby
 using DynamicPolynomials
 using PV_TSSOS
 
@@ -107,8 +107,8 @@ Feedback: sol=[-1.01992, -1.01992, -1.01992, 5.59501e-8].
 
 # Reference
 For more details, please refer to:
-[1]	N. H. A. Mai, J.-B. Lasserre, and V. Magron. Positivity certificates and polynomial optimization on non-compact semialgebraic sets, 2019. Submitted.
+1. N. H. A. Mai, J.-B. Lasserre, and V. Magron. Positivity certificates and polynomial optimization on non-compact semialgebraic sets, 2019. Submitted.
 https://arxiv.org/abs/1911.11428
-[2]	J. Wang, V. Magron, and J.-B. Lasserre. TSSOS: a moment-SOS hierarchy that exploits term sparsity, 2019. Submitted. 
+2. J. Wang, V. Magron, and J.-B. Lasserre. TSSOS: a moment-SOS hierarchy that exploits term sparsity, 2019. Submitted. 
 https://arxiv.org/abs/1912.08899
-[3] N. H. A. Mai, J. Wang, J.-B. Lasserre, and V. Magron. Exploiting term sparsity for polynomial optimization on non-compact semialgebraic sets, 2020. Forthcoming.
+3. N. H. A. Mai, J. Wang, J.-B. Lasserre, and V. Magron. Exploiting term sparsity for polynomial optimization on non-compact semialgebraic sets, 2020. Forthcoming.
