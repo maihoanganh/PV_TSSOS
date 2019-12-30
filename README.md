@@ -28,7 +28,7 @@ h = [x1+1/2-(x2+1/2)^3] # equalities constraints
 
 PV_TSSOS.block_compact_POP(x,f,g,h,k,r)
 ```
-Feedback: ***opt_val=-0.125*** and ***sol=[0.499998, 0.500002]***.
+Feedback: ```opt_val=-0.125``` and ```sol=[0.499998, 0.500002]```.
 
 ### 1.2. Non-compact case
 #### 1.2.1. Unconstrained case
@@ -56,7 +56,7 @@ r=2 # sparse order
 
 PV_TSSOS.adding_spherical_constraints(x,g,h,k,r) # compute minimizers
 ```
-Feedback: ***opt_val=-0.0369*** and ***sol=[0.571385, 0.571382]***.
+Feedback: ```opt_val=-0.0369``` and ```sol=[0.571385, 0.571382]```.
 
 #### 1.2.2.  Constrained case
 ```ruby
@@ -83,7 +83,7 @@ r=2 # sparse order
 
 PV_TSSOS.adding_spherical_constraints(x,g,h,k,r) # compute minimizers
 ```
-Feedback: ***opt_val=3.000*** and ***sol=[1.00043, 0.999788, 0.999782]***.
+Feedback: ```opt_val=3.000``` and ```sol=[1.00043, 0.999788, 0.999782]```.
 
 ## 2. Polynomial systems
 ```ruby
@@ -103,7 +103,7 @@ h = [x1*x2^2 + x1*x3^2 - 1.1*x1 + 1;
 
 PV_TSSOS.adding_spherical_constraints(x,g,h,k,r)
 ```
-Feedback: ***sol=[-1.01992, -1.01992, -1.01992, 5.59501e-8]***.
+Feedback: ```sol=[-1.01992, -1.01992, -1.01992, 5.59501e-8]```.
 
 # Reference
 For more details, please refer to:
