@@ -3,7 +3,7 @@ PV_TSSOS is a Julia modeling layer for both polynomial optimization and polynomi
 ## New advances
 - Obtaining an approximate optimizer for a general polynomial optimization 
 
-![POP](https://github.com/maihoanganh/PV_TSSOS/blob/master/images/POP.gif)
+              ![POP](https://github.com/maihoanganh/PV_TSSOS/blob/master/images/POP.gif)
 
 with guarantee in theory.
 
