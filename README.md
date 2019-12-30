@@ -10,8 +10,8 @@ MOSEK (SDP solver)
 
 # Usage
 The following examples are performed on WINDOW 10, Julia 1.1.1, and MOSEK 8.0.
-1. Polynomial optimization
-1.1. Compact case
+## 1. Polynomial optimization
+### 1.1. Compact case
 ```ruby
 using DynamicPolynomials
 using PV_TSSOS
@@ -30,8 +30,8 @@ PV_TSSOS.block_compact_POP(x,f,g,h,k,r)
 ```
 Feedback: opt_val=-0.125 and sol=[0.499998, 0.500002].
 
-1.2. Non-compact case
-1.2.1. Unconstrained case
+### 1.2. Non-compact case
+#### 1.2.1. Unconstrained case
 ```ruby
 using DynamicPolynomials
 using PV_TSSOS
@@ -58,7 +58,7 @@ PV_TSSOS.adding_spherical_constraints(x,g,h,k,r) # compute minimizers
 ```
 Feedback: opt_val=-0.0369 and sol=[0.571385, 0.571382].
 
-1.2.2.  Constrained case
+#### 1.2.2.  Constrained case
 ```ruby
 using DynamicPolynomials
 using PV_TSSOS
@@ -85,7 +85,7 @@ PV_TSSOS.adding_spherical_constraints(x,g,h,k,r) # compute minimizers
 ```
 Feedback: opt_val=3.000 and sol=[1.00043, 0.999788, 0.999782].
 
-2. Polynomial systems
+## 2. Polynomial systems
 ```ruby
 using DynamicPolynomials
 using PV_TSSOS
