@@ -1,6 +1,13 @@
 # About PV_TSSOS
 PV_TSSOS is a Julia modeling layer for both polynomial optimization and polynomial systems by combining [TSSOS](https://github.com/wangjie212/TSSOS) and the SDP hierarchy relying on [Putinar-Vasilescu's Positivstellensatz](https://arxiv.org/abs/1911.11428). 
+## New advances
+- Obtaining an approximate optimizer for a general polynomial optimization 
+\begin{equation}
+\min\limits_{x\in S(g,h)} f(x)
+\end{equation}
+with guarantee in theory.
 
+## Installation
 To use PV_TSSOS in Julia, run:
 ```ruby
 pkg> add https://github.com/maihoanganh/PV_TSSOS
@@ -23,8 +30,8 @@ r=1 # sparse order
 x=[x1;x2] 
 
 f = x1^4+x2^4-x1*x2 # objective function
-g = [x1;1-x1^2-x2^2] # inequalities constraints
-h = [x1+1/2-(x2+1/2)^3] # equalities constraints
+g = [x1;1-x1^2-x2^2] # inequality constraints
+h = [x1+1/2-(x2+1/2)^3] # equality constraints
 
 PV_TSSOS.block_compact_POP(x,f,g,h,k,r)
 ```
@@ -44,8 +51,8 @@ r=1 # sparse order
 x=[x1;x2] 
 
 f = x1^2*x2^2*(x1^2+x2^2-1) # objective function
-g = [] # inequalities constraints
-h = [] # equalities constraints
+g = [] # inequality constraints
+h = [] # equality constraints
 
 opt_val=PV_TSSOS.block_noncompact_POP(x,f,g,h,eps,k,r) # take the optimal value
 
@@ -71,8 +78,8 @@ r=2 # sparse order
 x=[x1;x2;x3] 
 
 f = x1+x2+x3 # objective function
-g = [x1;x2;x3] # inequalities constraints
-h = [x1*x2*x3-1] # equalities constraints
+g = [x1;x2;x3] # inequality constraints
+h = [x1*x2*x3-1] # equality constraints
 
 opt_val=PV_TSSOS.block_noncompact_POP(x,f,g,h,eps,k,r) # take the optimal value
 
