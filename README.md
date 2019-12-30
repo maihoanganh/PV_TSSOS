@@ -122,4 +122,4 @@ For more details, please refer to:
 https://arxiv.org/abs/1911.11428
 2. J. Wang, V. Magron, and J.-B. Lasserre. TSSOS: a moment-SOS hierarchy that exploits term sparsity, 2019. Submitted. 
 https://arxiv.org/abs/1912.08899
-3. N. H. A. Mai, J. Wang, J.-B. Lasserre, and V. Magron. Exploiting term sparsity for polynomial optimization on non-compact semialgebraic sets, 2020. Forthcoming.
+3. N. H. A. Mai, J. Wang, V. Magron and J.-B. Lasserre. Exploiting term sparsity for polynomial optimization on non-compact semialgebraic sets, 2020. Forthcoming.
