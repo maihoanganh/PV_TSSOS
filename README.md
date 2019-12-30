@@ -3,10 +3,14 @@ PV_TSSOS is a Julia modeling layer for both polynomial optimization and polynomi
 ## New advances
 - Obtaining an approximate optimizer for a general polynomial optimization 
 
-              ![POP](https://github.com/maihoanganh/PV_TSSOS/blob/master/images/POP.gif)
+     ![POP](https://github.com/maihoanganh/PV_TSSOS/blob/master/images/POP.gif)
 
 with guarantee in theory.
+- Obtaining generically a feasible solution of a basic semialgebraic set 
 
+    ![POP](https://github.com/maihoanganh/PV_TSSOS/blob/master/images/S.gif)
+
+with possibly uncountably many solutions.
 ## Installation
 To use PV_TSSOS in Julia, run:
 ```ruby
