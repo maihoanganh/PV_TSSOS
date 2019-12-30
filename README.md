@@ -5,7 +5,7 @@ To use PV_TSSOS in Julia, run:
 ```ruby
 pkg> add https://github.com/maihoanganh/PV_TSSOS
 ```
-# Dependencies
+# Dependency
 MOSEK (SDP solver)
 
 # Usage
@@ -105,7 +105,7 @@ PV_TSSOS.adding_spherical_constraints(x,g,h,k,r)
 ```
 Feedback: ```sol=[-1.01992, -1.01992, -1.01992, 5.59501e-8]```.
 
-# Reference
+# References
 For more details, please refer to:
 1. N. H. A. Mai, J.-B. Lasserre, and V. Magron. Positivity certificates and polynomial optimization on non-compact semialgebraic sets, 2019. Submitted.
 https://arxiv.org/abs/1911.11428
