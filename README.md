@@ -2,9 +2,9 @@
 PV_TSSOS is a Julia modeling layer for both polynomial optimization and polynomial systems by combining [TSSOS](https://github.com/wangjie212/TSSOS) and the SDP hierarchy relying on [Putinar-Vasilescu's Positivstellensatz](https://arxiv.org/abs/1911.11428). 
 
 To use PV_TSSOS in Julia, run:
-
+```ruby
 pkg> add https://github.com/maihoanganh/PV_TSSOS
-
+```
 # Dependencies
 MOSEK (SDP solver)
 
