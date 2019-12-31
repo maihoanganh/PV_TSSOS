@@ -764,7 +764,7 @@ function adding_spherical_constraints(x,g,h,k,r)
         g=[g;f]
     end
 
-    L0=block_noncompact_POP_with_lower_bound(x,f,g,h,eps,k,r)
+    L0=PV_TSSOS.block_noncompact_POP_with_lower_bound(x,f,g,h,eps,k,r)
     
     println("------------------------------------")
 
@@ -782,7 +782,7 @@ function adding_spherical_constraints(x,g,h,k,r)
 
     println("------------------------------------")
 
-    obtain_data=block_compact_POP(x,f,g,h,k+d_max,r)
+    obtain_data=PV_TSSOS.block_compact_POP(x,f,g,h,k+d_max,r)
     
     omega0=obtain_data.opt_val
     
@@ -823,7 +823,7 @@ function adding_spherical_constraints(x,g,h,k,r)
 
 
 
-            obtain_data=block_compact_POP(x,f,g,h,k+d_max,r)
+            obtain_data=PV_TSSOS.block_compact_POP(x,f,g,h,k+d_max,r)
             omega[t]=obtain_data.opt_val
             println("------------------------------------")
             println("omega",t," = ", omega[t])
