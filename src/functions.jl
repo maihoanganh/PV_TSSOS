@@ -205,6 +205,8 @@ function block_compact_POP(x,f,g,h,k,r)
 
     println("Optimal value = ",opt_val)
     
+    have_sol=0
+    
     println("------------------------------------")
     G0=zeros(rf,rf)
     for i=1:length_ind_block_f
@@ -212,65 +214,81 @@ function block_compact_POP(x,f,g,h,k,r)
     end
 
 
-
+    
     rk=rf-rank(G0, 1e-4)
 
     println("Rank of moment matrix = ", rk)
 
+    if rk >0
+        # extraction of Henrion and Lasserre
+        F = eigen(G0)
+        V = F.vectors
 
-    # extraction of Henrion and Lasserre
-    F = eigen(G0)
-    V = F.vectors
+        Ix=sortperm(F.values)
 
-    Ix=sortperm(F.values)
+        V=V[:,Ix[1:rk]]
+        V=Matrix(V')
+        V= rref_with_pivots!(V,1e-3);
+        U=V[1]
 
-    V=V[:,Ix[1:rk]]
-    V=Matrix(V')
-    V= rref_with_pivots!(V,1e-3);
-    U=V[1]
-
-    U=Matrix(U')
-    # Figure out multiplying matrices using YALMIP code
-    w=v[V[2]];
-    N=zeros(length(V[2]),rk,n)
-    for i in 1:n
-        xw=x[i]*w
-        kk=indexin(xw,v)
-        N[:,:,i]=U[kk,:]
-    end
-
-
-
-    # Create random convex combination
-    rands = rand(n,1);rands = rands/sum(rands);
-    M = zeros(length(V[2]),rk);
-    for i in 1:n
-        M+=rands[i]*N[:,:,i];
-    end
-
-    F= schur(M);
-    L=F.Z
-    # Extract solution
-    for i in 1:rk
-        solution=[]
-        for j = 1:n
-            solution=[solution;L[:,i]'*N[:,:,j]*L[:,i]];
-        end
-        println("------------------------------------")
-        println("Solution = ",solution)
-         
-        println("check lower bound  = ",opt_val-polynomial(f)(x => solution))
-        for i in 1:m
-            println("check inequality ",i," = ",polynomial(g[i])(x => solution))         
+        U=Matrix(U')
+        # Figure out multiplying matrices using YALMIP code
+        w=v[V[2]];
+        N=zeros(length(V[2]),rk,n)
+        for i in 1:n
+            xw=x[i]*w
+            kk=indexin(xw,v)
+            N[:,:,i]=U[kk,:]
         end
 
-        for i in 1:l
-            println("check equality ",i," = ",polynomial(h[i])(x => solution))
+
+
+        # Create random convex combination
+        rands = rand(n,1);rands = rands/sum(rands);
+        M = zeros(length(V[2]),rk);
+        for i in 1:n
+            M+=rands[i]*N[:,:,i];
         end
-        
+
+        F= schur(M);
+        L=F.Z
+        # Extract solution
+        for i in 1:rk
+            solution=[]
+            for j = 1:n
+                solution=[solution;L[:,i]'*N[:,:,j]*L[:,i]];
+            end
+            println("------------------------------------")
+            println("Solution = ",solution)
+            flag=1
+            check=opt_val-polynomial(f)(x => solution)
+            println("check lower bound  = ",check)
+            if abs(check)>1e-3
+                flag=0
+            end
+            for i in 1:m
+                check=polynomial(g[i])(x => solution)
+                println("check inequality ",i," = ",check) 
+                if check<-1e-3
+                flag=0
+                end
+            end
+
+            for i in 1:l
+                check=polynomial(h[i])(x => solution)
+                println("check equality ",i," = ",check)
+                if abs(check)>1e-3
+                flag=0
+                end
+            end
+            if flag ==1
+                have_sol=1
+            end
+
+        end
     end
     
-return opt_val
+return opt_val, have_sol
 end
 
 
@@ -746,7 +764,7 @@ function adding_spherical_constraints(x,g,h,k,r)
         g=[g;f]
     end
 
-    L0=PV_TSSOS.block_noncompact_POP_with_lower_bound(x,f,g,h,eps,k,r)
+    L0=block_noncompact_POP_with_lower_bound(x,f,g,h,eps,k,r)
     
     println("------------------------------------")
 
@@ -764,11 +782,14 @@ function adding_spherical_constraints(x,g,h,k,r)
 
     println("------------------------------------")
 
-    omega0=PV_TSSOS.block_compact_POP(x,f,g,h,k+d_max,r)
-
+    obtain_data=block_compact_POP(x,f,g,h,k+d_max,r)
+    
+    omega0=obtain_data.opt_val
+    
     println("------------------------------------")
 
     println("omega",0," = ", omega0)
+    
 
     println("====================================")
 
@@ -782,34 +803,39 @@ function adding_spherical_constraints(x,g,h,k,r)
 
     #inequalities polynomial
     g=g[1:end-1]
+    
+    if obtain_data.have_sol==0
+        for t=1:n
 
-    for t=1:n
+            println("Determine omega",t,":")
 
-        println("Determine omega",t,":")
-
-        println("------------------------------------")
-
-
-
-        if t>1
-            #equalities polynomial
-            h = [h;omega[t-1]-f] ; l=length(h)
-        end        
-
-        f=[x-a[:,t]]'*[x-a[:,t]]
+            println("------------------------------------")
 
 
 
+            if t>1
+                #equalities polynomial
+                h = [h;omega[t-1]-f] ; l=length(h)
+            end        
 
-        omega[t]=PV_TSSOS.block_compact_POP(x,f,g,h,k+d_max,r)
-        println("------------------------------------")
-        println("omega",t," = ", omega[t])
+            f=[x-a[:,t]]'*[x-a[:,t]]
 
 
 
-        println("====================================")
+
+            obtain_data=block_compact_POP(x,f,g,h,k+d_max,r)
+            omega[t]=obtain_data.opt_val
+            println("------------------------------------")
+            println("omega",t," = ", omega[t])
+
+
+
+            println("====================================")
+            if obtain_data.have_sol==0
+                break
+            end
+        end
     end
-
 end
 
 
