@@ -1,3 +1,8 @@
+mutable struct data_type
+    opt_val
+    have_sol
+end
+
 function block_compact_POP(x,f,g,h,k,r)
     n=length(x)
     m=length(g)
@@ -259,26 +264,26 @@ function block_compact_POP(x,f,g,h,k,r)
                 solution=[solution;L[:,i]'*N[:,:,j]*L[:,i]];
             end
             println("------------------------------------")
-            println("Solution = ",solution)
+            println("solution",i," = ",solution)
             flag=1
             check=opt_val-polynomial(f)(x => solution)
             println("check lower bound  = ",check)
             if abs(check)>1e-3
                 flag=0
             end
-            for i in 1:m
-                check=polynomial(g[i])(x => solution)
-                println("check inequality ",i," = ",check) 
+            for j in 1:m
+                check=polynomial(g[j])(x => solution)
+                println("check inequality ",j," = ",check) 
                 if check<-1e-3
-                flag=0
+                    flag=0
                 end
             end
 
-            for i in 1:l
-                check=polynomial(h[i])(x => solution)
-                println("check equality ",i," = ",check)
+            for j in 1:l
+                check=polynomial(h[j])(x => solution)
+                println("check equality ",j," = ",check)
                 if abs(check)>1e-3
-                flag=0
+                    flag=0
                 end
             end
             if flag ==1
@@ -287,8 +292,9 @@ function block_compact_POP(x,f,g,h,k,r)
 
         end
     end
+    data=data_type(opt_val,have_sol)
     
-return opt_val, have_sol
+return  data
 end
 
 
@@ -764,7 +770,7 @@ function adding_spherical_constraints(x,g,h,k,r)
         g=[g;f]
     end
 
-    L0=PV_TSSOS.block_noncompact_POP_with_lower_bound(x,f,g,h,eps,k,r)
+    L0=block_noncompact_POP_with_lower_bound(x,f,g,h,eps,k,r)
     
     println("------------------------------------")
 
@@ -782,9 +788,9 @@ function adding_spherical_constraints(x,g,h,k,r)
 
     println("------------------------------------")
 
-    obtain_data=PV_TSSOS.block_compact_POP(x,f,g,h,k+d_max,r)
+    data=block_compact_POP(x,f,g,h,k+d_max,r)
     
-    omega0=obtain_data.opt_val
+    omega0=data.opt_val
     
     println("------------------------------------")
 
@@ -804,7 +810,7 @@ function adding_spherical_constraints(x,g,h,k,r)
     #inequalities polynomial
     g=g[1:end-1]
     
-    if obtain_data.have_sol==0
+    if data.have_sol==0
         for t=1:n
 
             println("Determine omega",t,":")
@@ -823,15 +829,15 @@ function adding_spherical_constraints(x,g,h,k,r)
 
 
 
-            obtain_data=PV_TSSOS.block_compact_POP(x,f,g,h,k+d_max,r)
-            omega[t]=obtain_data.opt_val
+            data=block_compact_POP(x,f,g,h,k+d_max,r)
+            omega[t]=data.opt_val
             println("------------------------------------")
             println("omega",t," = ", omega[t])
 
 
 
             println("====================================")
-            if obtain_data.have_sol==0
+            if data.have_sol==0
                 break
             end
         end
