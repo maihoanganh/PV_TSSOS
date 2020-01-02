@@ -242,9 +242,12 @@ function block_compact_POP(x,f,g,h,k,r)
         N=zeros(length(V[2]),rk,n)
         for i in 1:n
             xw=x[i]*w
-            #kk=findfirst(el->el==x[i]*w,v)
             kk=indexin(xw,v)
-            N[:,:,i]=U[kk,:]
+            if nothing in kk
+                break
+            else
+                N[:,:,i]=U[kk,:]
+            end
         end
 
 
@@ -269,7 +272,7 @@ function block_compact_POP(x,f,g,h,k,r)
             flag=1
             check=opt_val-polynomial(f)(x => atom)
             println("check lower bound  = ",check)
-            if abs(check)>1e-3
+            if abs(check)>1e-2
                 flag=0
             end
             for j in 1:m
@@ -842,7 +845,7 @@ function adding_spherical_constraints(x,g,h,k,r)
 
 
             println("====================================")
-            if data.have_sol==0
+            if data.have_sol==1
                 break
             end
         end
