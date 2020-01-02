@@ -240,64 +240,67 @@ function block_compact_POP(x,f,g,h,k,r)
         # Figure out multiplying matrices using YALMIP code
         w=v[V[2]];
         N=zeros(length(V[2]),rk,n)
+        flag=1
         for i in 1:n
             xw=x[i]*w
             kk=indexin(xw,v)
             if nothing in kk
+                flag=0
                 break
             else
                 N[:,:,i]=U[kk,:]
             end
         end
 
+        if flag==1
 
-
-        # Create random convex combination
-        rands = rand(n,1);rands = rands/sum(rands);
-        M = zeros(length(V[2]),rk);
-        for i in 1:n
-            M+=rands[i]*N[:,:,i];
-        end
-
-        F= schur(M);
-        L=F.Z
-        # Extract solution
-        for i in 1:rk
-            atom=[]
-            for j = 1:n
-                atom=[atom;L[:,i]'*N[:,:,j]*L[:,i]];
+            # Create random convex combination
+            rands = rand(n,1);rands = rands/sum(rands);
+            M = zeros(length(V[2]),rk);
+            for i in 1:n
+                M+=rands[i]*N[:,:,i];
             end
-            println("------------------------------------")
-            println("atom ",i," = ",atom)
-            flag=1
-            check=opt_val-polynomial(f)(x => atom)
-            println("check lower bound  = ",check)
-            if abs(check)>1e-2
-                flag=0
-            end
-            for j in 1:m
-                check=polynomial(g[j])(x => atom)
-                println("check inequality ",j," = ",check) 
-                if check<-1e-3
+
+            F= schur(M);
+            L=F.Z
+            # Extract solution
+            for i in 1:rk
+                atom=[]
+                for j = 1:n
+                    atom=[atom;L[:,i]'*N[:,:,j]*L[:,i]];
+                end
+                println("------------------------------------")
+                println("atom ",i," = ",atom)
+                flag=1
+                check=opt_val-polynomial(f)(x => atom)
+                println("check lower bound  = ",check)
+                if abs(check)>1e-2
                     flag=0
                 end
-            end
-
-            for j in 1:l
-                check=polynomial(h[j])(x => atom)
-                println("check equality ",j," = ",check)
-                if abs(check)>1e-3
-                    flag=0
+                for j in 1:m
+                    check=polynomial(g[j])(x => atom)
+                    println("check inequality ",j," = ",check) 
+                    if check<-1e-3
+                        flag=0
+                    end
                 end
-            end
-            if flag ==1
-                have_sol=1
-                sol=atom
-                println("####################################")
-                println("Solution = ",sol)
-                println("####################################")
-            end
 
+                for j in 1:l
+                    check=polynomial(h[j])(x => atom)
+                    println("check equality ",j," = ",check)
+                    if abs(check)>1e-3
+                        flag=0
+                    end
+                end
+                if flag ==1
+                    have_sol=1
+                    sol=atom
+                    println("####################################")
+                    println("Solution = ",sol)
+                    println("####################################")
+                end
+
+            end
         end
     end
     data=data_type(opt_val,have_sol)
